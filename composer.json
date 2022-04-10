@@ -1,0 +1,23 @@
+{
+    "name": "ferror/scientist",
+    "description": "Scientist pattern proof of concept",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Ferror\\Scientist\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ferror\\Scientist\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">=8.0",
+        "psr/log": "^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
+}
