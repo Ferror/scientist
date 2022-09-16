@@ -12,16 +12,18 @@ class ScientistTest extends TestCase
 {
     public function testBehaviour(): void
     {
+        $connection = $this->createMock(\Doctrine\DBAL\Driver\Connection::class);
         $scientist = new Scientist(
             new Voter(true),
             new NullLogger(),
+            $connection,
         );
         $scientist
             ->current(function () {
-                echo "First Attempt\n";
+                echo PHP_EOL . 'First Attempt'  . PHP_EOL;
             })
             ->try(function () {
-                echo "Second Attempt\n";
+                echo PHP_EOL . 'Second Attempt' . PHP_EOL;
             })
             ->run();
 
