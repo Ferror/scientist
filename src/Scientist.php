@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Ferror\Scientist;
 
+use Doctrine\DBAL\Driver\Connection;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 class Scientist
 {
@@ -13,6 +15,7 @@ class Scientist
     public function __construct(
         private Voter $voter,
         private LoggerInterface $logger,
+        private Connection $connection,
     )
     {
     }
@@ -31,17 +34,24 @@ class Scientist
         return $this;
     }
 
-    public function run()
+    public function run(): void
     {
         if ($this->voter->isTrue()) {
             try {
                 //start transaction
+                $this->connection->beginTransaction();
+
+                //execute new code
                 ($this->feature)();
+
                 //end transaction
+                $this->connection->commit();
 
                 return;
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 //rollback changes
+                $this->connection->rollBack();
+
                 //log it
                 $this->logger->error($e->getMessage());
             }
